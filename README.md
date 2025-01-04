@@ -24,7 +24,7 @@ Zenity tabanlı basit bir envanter yönetim sistemi. Linux sistemlerde çalış�
 
 1. Depoyu klonlayın:
 ```bash
-git clone https://github.com/kullaniciadi/envanter-sistemi.git
+git https://github.com/habibsalimov/envanter-sistemi.git
 ```
 
 2. Dizine gidin:
