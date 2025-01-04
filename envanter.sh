@@ -12,7 +12,7 @@ KULLANICI_ROL=""
 GIRIS_DENEME=0
 MAX_GIRIS_HAKKI=3
 
-# CSV dosya yapıları
+# CSV dosya yapıları - Başlıkların doğru olduğundan emin olun
 DEPO_BASLIK="UrunNo,UrunAdi,StokMiktari,BirimFiyat,Kategori"
 KULLANICI_BASLIK="KullaniciNo,Ad,Soyad,Rol,Parola,Durum"
 LOG_BASLIK="HataNo,Zaman,KullaniciAdi,Islem,Detay"
@@ -57,6 +57,7 @@ cleanup() {
 
 # Ana programı başlatma fonksiyonu
 main() {
+    clear
     echo -e "\033]0;Envanter Yönetim Sistemi\007"
     
     echo "=============================================="
@@ -65,7 +66,16 @@ main() {
     
     check_requirements
     setup_files
-    login
+    
+    # Login işlemini kontrol et
+    while true; do
+        login
+        if [ $? -eq 0 ]; then
+            break
+        fi
+    done
+    
+    # Başarılı girişten sonra ana menüyü göster
     ana_menu
 }
 
@@ -75,7 +85,10 @@ ana_menu() {
         local secim=$(zenity --list --title="Ana Menü" \
             --text="Hoş geldiniz, $AKTIF_KULLANICI" \
             --column="İşlem" \
-            "Ürün İşlemleri" \
+            "Ürün Ekle" \
+            "Ürün Listele" \
+            "Ürün Güncelle" \
+            "Ürün Sil" \
             "Raporlar" \
             "Kullanıcı Yönetimi" \
             "Program Yönetimi" \
@@ -83,7 +96,10 @@ ana_menu() {
             --width=300 --height=400)
         
         case $secim in
-            "Ürün İşlemleri") urun_menu ;;
+            "Ürün Ekle") urun_ekle ;;
+            "Ürün Listele") urun_listele ;;
+            "Ürün Güncelle") urun_guncelle ;;
+            "Ürün Sil") urun_sil ;;
             "Raporlar") rapor_menu ;;
             "Kullanıcı Yönetimi") kullanici_menu ;;
             "Program Yönetimi") program_menu ;;
@@ -109,6 +125,10 @@ cikis() {
 
 # Fonksiyonlar
 source "./lib/auth.sh"
+[ -f "./lib/urun_islemleri.sh" ] || {
+    zenity --error --text="Ürün işlemleri modülü bulunamadı!"
+    exit 1
+}
 source "./lib/urun_islemleri.sh"
 source "./lib/raporlar.sh"
 source "./lib/kullanici_yonetimi.sh"

@@ -4,13 +4,12 @@ setup_files() {
     # CSV dosyalarını oluştur
     [ ! -f "depo.csv" ] && {
         echo "$DEPO_BASLIK" > depo.csv
-        echo "1,Örnek Ürün,100,10.50,Genel" >> depo.csv
+        # Örnek ürün eklerken tüm alanların doğru formatta olduğundan emin ol
+        echo "1,Örnek-Ürün,100,10.50,Genel" >> depo.csv
     }
     
     [ ! -f "kullanici.csv" ] && {
         echo "$KULLANICI_BASLIK" > kullanici.csv
-        # Admin kullanıcısı oluştur (parola: admin123)
-        echo "1,Admin,User,yonetici,$(echo -n 'admin123' | md5sum | cut -d' ' -f1),aktif" >> kullanici.csv
     }
     
     [ ! -f "log.csv" ] && {
