@@ -16,8 +16,6 @@ kullanici_menu() {
             "Kullanıcı Listele" \
             "Kullanıcı Güncelle" \
             "Kullanıcı Sil" \
-            "Şifre Sıfırla" \
-            "Hesap Kilidini Kaldır" \
             "Ana Menüye Dön" \
             --width=300 --height=400)
         
@@ -26,8 +24,6 @@ kullanici_menu() {
             "Kullanıcı Listele") kullanici_listele ;;
             "Kullanıcı Güncelle") kullanici_guncelle ;;
             "Kullanıcı Sil") kullanici_sil ;;
-            "Şifre Sıfırla") sifre_sifirla ;;
-            "Hesap Kilidini Kaldır") hesap_kilidi_kaldir ;;
             "Ana Menüye Dön"|"") break ;;
         esac
     done
@@ -100,60 +96,6 @@ kullanici_listele() {
     zenity --text-info --title="Kullanıcı Listesi" \
         --width=700 --height=400 --font="monospace" \
         --filename=<(echo "$liste")
-}
-
-sifre_sifirla() {
-    local kullanici_listesi=$(awk -F',' 'NR>1 {print $1 "|" $2 "." $3}' kullanici.csv)
-    
-    local secilen=$(zenity --list \
-        --title="Şifre Sıfırla" \
-        --text="Şifresi sıfırlanacak kullanıcıyı seçin:" \
-        --column="No" --column="Kullanıcı Adı" \
-        $(echo "$kullanici_listesi" | tr '|' ' ') \
-        --width=300 --height=400)
-    
-    [ -z "$secilen" ] && return 1
-    
-    local yeni_sifre=$(zenity --password --title="Yeni Şifre" --text="Yeni şifreyi girin:")
-    [ -z "$yeni_sifre" ] && return 1
-    
-    local sifre_tekrar=$(zenity --password --title="Şifre Doğrulama" --text="Yeni şifreyi tekrar girin:")
-    
-    [ "$yeni_sifre" != "$sifre_tekrar" ] && {
-        zenity --error --text="Şifreler eşleşmiyor!"; return 1;
-    }
-    
-    [ ${#yeni_sifre} -lt 6 ] && {
-        zenity --error --text="Şifre en az 6 karakter olmalıdır!"; return 1;
-    }
-    
-    progress_bar "Şifre sıfırlanıyor"
-    local md5_sifre=$(echo -n "$yeni_sifre" | md5sum | cut -d' ' -f1)
-    sed -i "s/\(^$secilen,[^,]*,[^,]*,[^,]*,\)[^,]*,/\1$md5_sifre,/" kullanici.csv
-    
-    zenity --info --text="Şifre başarıyla sıfırlandı!"
-}
-
-hesap_kilidi_kaldir() {
-    local kilitli_hesaplar=$(awk -F',' '$6=="kilitli" {print $1 "|" $2 "." $3}' kullanici.csv)
-    
-    [ -z "$kilitli_hesaplar" ] && {
-        zenity --info --text="Kilitli hesap bulunmamaktadır."; return 0;
-    }
-    
-    local secilen=$(zenity --list \
-        --title="Hesap Kilidi Kaldır" \
-        --text="Kilidi kaldırılacak hesabı seçin:" \
-        --column="No" --column="Kullanıcı Adı" \
-        $(echo "$kilitli_hesaplar" | tr '|' ' ') \
-        --width=300 --height=400)
-    
-    [ -z "$secilen" ] && return 1
-    
-    progress_bar "Hesap kilidi kaldırılıyor"
-    sed -i "s/\(^$secilen,[^,]*,[^,]*,[^,]*,[^,]*,\)kilitli/\1aktif/" kullanici.csv
-    
-    zenity --info --text="Hesap kilidi başarıyla kaldırıldı!"
 }
 
 # ...additional user management functions here...
