@@ -4,7 +4,7 @@ Zenity tabanlı basit bir envanter yönetim sistemi. Linux sistemlerde çalış�
 
 ## Özellikler
 
-- Ürün yönetimi (ekleme, silme, güncelleme, listeleme)
+- Ürün yönetimi (ekleme, silme, guncelleme, listeleme)
 - Kullanıcı yönetimi
 - Raporlama sistemi
 - Yedekleme ve geri yükleme
