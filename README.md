@@ -16,7 +16,7 @@ Bash tabanlı, kullanıcı dostu grafiksel arayüze sahip bir envanter yönetim 
 
 Sistemin detaylı tanıtımı ve kullanımı için aşağıdaki YouTube videosunu izleyebilirsiniz:
 
-[🎥 Envanter Yönetim Sistemi Tanıtım Videosu](https://youtu.be/kqi5KGk-8bU)
+[🎥 Envanter Yönetim Sistemi Tanıtım Videosu](https://youtu.be/PohcKAJWHeM)
 
 ## Gereksinimler
 
