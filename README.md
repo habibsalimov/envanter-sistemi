@@ -18,6 +18,8 @@ Sistemin detaylı tanıtımı ve kullanımı için aşağıdaki YouTube videosun
 
 [🎥 Envanter Yönetim Sistemi Tanıtım Videosu](https://youtu.be/PohcKAJWHeM)
 
+[Github reposu](https://github.com/habibsalimov/envanter-sistemi)
+
 ## Gereksinimler
 
 - Bash 4.0+
